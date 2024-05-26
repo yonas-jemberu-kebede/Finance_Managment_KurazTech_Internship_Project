@@ -13,7 +13,18 @@ return new class extends Migration
     {
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
+            $table->decimal('amount', 15, 2);
+            $table->string('type'); // income, expense, transfer
+            $table->string('reference')->unique();
+            $table->string('attachment')->unique()->nullable();
+
+            $table->unsignedBigInteger('account_id');
+            $table->unsignedBigInteger('target_account_id')->nullable(); // For transfers
             $table->timestamps();
+            
+            $table->foreign('account_id')->references('id')->on('accounts')->onDelete('cascade');
+            $table->foreign('target_account_id')->references('id')->on('accounts')->onDelete('cascade');
+          
         });
     }
 

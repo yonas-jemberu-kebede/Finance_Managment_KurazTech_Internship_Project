@@ -17,7 +17,13 @@ class AccountFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'name'=>fake()->name(),
+            'account_number'=>fake()->unique()->numerify(),
+            'account_currency'=>fake()->currencyCode(),    
+           'opening_balance'=>fake()->randomFloat(2,25),
+           'contact_person'=>fake()->name(),
+           'contact_email'=>fake()->email(),
+           'note'=>fake()->paragraph()
         ];
     }
 }
