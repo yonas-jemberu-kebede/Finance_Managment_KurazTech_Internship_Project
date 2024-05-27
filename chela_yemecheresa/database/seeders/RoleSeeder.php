@@ -17,11 +17,12 @@ class RoleSeeder extends Seeder
         Permission::create(['name'=>'update']);
         Permission::create(['name'=>'read']);
         Permission::create(['name'=>'delete']);
+        
 
         $role1=Role::create(['name'=>'admin']);
         $role1->givePermissionTo(Permission::all());
 
-        $role2=Role::create(['name'=>'cutomer']);
+        $role2=Role::create(['name'=>'customer']);
         $role2->givePermissionTo(Permission::all());
 
         $role3=Role::create(['name'=>'vendor']);

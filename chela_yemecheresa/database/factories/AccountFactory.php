@@ -23,7 +23,7 @@ class AccountFactory extends Factory
            'opening_balance'=>fake()->randomFloat(2,25),
            'contact_person'=>fake()->name(),
            'contact_email'=>fake()->email(),
-           'note'=>fake()->paragraph()
+           'note'=>fake()->name()
         ];
     }
 }
