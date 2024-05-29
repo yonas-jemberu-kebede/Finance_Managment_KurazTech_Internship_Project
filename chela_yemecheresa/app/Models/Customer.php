@@ -9,4 +9,8 @@ class Customer extends Model
 {
     use HasFactory;
     protected $guraded=[];
+    
+    public function incometransaction(){
+        return $this->hasMany(IncomeTransaction::class);
+    }
 }

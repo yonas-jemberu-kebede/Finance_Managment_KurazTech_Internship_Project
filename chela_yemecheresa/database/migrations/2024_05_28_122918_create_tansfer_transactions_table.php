@@ -11,19 +11,21 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('transactions', function (Blueprint $table) {
+        Schema::create('tansfer_transactions', function (Blueprint $table) {
             $table->id();
             $table->decimal('amount', 15, 2);
-            $table->string('type'); // income, expense, transfer,other
+            $table->string('type'); // income, expense, transfer
             $table->string('reference')->unique();
-            $table->string('attachment')->unique()->nullable();
+            $table->string('attachment')->unique();
 
+            $table->unsignedBigInteger('payment_method_id');
             $table->unsignedBigInteger('account_id');
             $table->unsignedBigInteger('target_account_id')->nullable(); // For transfers
-          
+ 
             
             $table->foreign('account_id')->references('id')->on('accounts')->onDelete('cascade');
             $table->foreign('target_account_id')->references('id')->on('accounts')->onDelete('cascade');
+            $table->foreign('payment_method_id')->references('id')->on('payment_methods')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -33,6 +35,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('transactions');
+        Schema::dropIfExists('tansfer_transactions');
     }
 };
