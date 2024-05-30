@@ -20,9 +20,13 @@ class ExpenseTransactionController extends Controller
     public function allexpense()
     {
         $allExpenseTransactions = ExpenseTransaction::all();
-        return response()->json([
+        $jsonResponse= response()->json([
             'expensetransactions' => $allExpenseTransactions
         ]);
+        $prettyPrintedJson = json_encode($jsonResponse->original, JSON_PRETTY_PRINT);
+
+        // Return the JSON response with spaces for better readability
+        return response($prettyPrintedJson)->header('Content-Type', 'application/json');
     }
     
     public function showadd(){

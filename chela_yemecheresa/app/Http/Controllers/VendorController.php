@@ -10,9 +10,13 @@ class VendorController extends Controller
     public function index()
 {
     $allVendors = Vendor::all();
-    return response()->json([
+    $jsonResponse =response()->json([
         'vendors' => $allVendors
     ]);
+    $prettyPrintedJson = json_encode($jsonResponse->original, JSON_PRETTY_PRINT);
+
+    // Return the JSON response with spaces for better readability
+    return response($prettyPrintedJson)->header('Content-Type', 'application/json');
 }
 
 public function edit(Vendor $vendor)

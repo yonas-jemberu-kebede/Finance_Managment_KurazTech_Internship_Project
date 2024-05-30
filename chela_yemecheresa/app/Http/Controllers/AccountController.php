@@ -9,7 +9,12 @@ class AccountController extends Controller
 {
     public function index(){
         $allaccounts=Account::all();
-        return response()->json(['accounts'=>$allaccounts]);
+        $jsonResponse= response()->json(['accounts'=>$allaccounts]);
+
+        $prettyPrintedJson = json_encode($jsonResponse->original, JSON_PRETTY_PRINT);
+
+        // Return the JSON response with spaces for better readability
+        return response($prettyPrintedJson)->header('Content-Type', 'application/json');
    
     }
     public function edit(Account $account)
