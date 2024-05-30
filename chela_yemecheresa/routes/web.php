@@ -51,8 +51,9 @@ Route::middleware([''])->group(function(){
 });
 
 
-Route::get('/income',[IncomeTransactionController::class,'income'])->name('transaction.income');
-Route::get('/expense',[ExpenseTransactionController::class,'expense'])->name('transaction.expense');
+Route::get('/allincome',[IncomeTransactionController::class,'allincome'])->name('incometransaction.allincome');
+Route::get('/totalincome',[IncomeTransactionController::class,'totalincome'])->name('incometransaction.totalincome');
+Route::get('/allexpense',[ExpenseTransactionController::class,'allexpense'])->name('transaction.expense');
 
 
 require __DIR__.'/auth.php';

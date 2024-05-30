@@ -7,67 +7,75 @@ use Illuminate\Http\Request;
 
 class CustomerController extends Controller
 {
-    public function index(){
-        $allcustomers=Customer::all();
-        return view ('customer.index',[
-            'customers'=>$allcustomers
-        ]
-        );
+    public function index()
+    {
+        $allCustomers = Customer::all();
+        return response()->json([
+            'customers' => $allCustomers
+        ]);
     }
 public function showadd(){
     return view('customer.showadd');
 }
-    public function edit(Customer $customer){
+public function edit(Customer $customer)
+{
+    return response()->json([
+        'customer' => $customer
+    ]);
+}
 
-        return view('customer.edit', [
-            'customer'=>$customer
-        ]);
-    }
+public function view(Customer $customer)
+{
+    return response()->json([
+        'customer' => $customer
+    ]);
+}
 
-    public function view(Customer $customer){
-        return view('customer.view',[
-            'customer'=>$customer
-        ]);
-    }
-    public function store(Request $request){
+public function store(Request $request)
+{
+    $validated = $request->validate([
+        'name' => ['required', 'string', 'max:255'],
+        'email' => ['required', 'string', 'email', 'max:255'],
+        'company_name' => ['nullable', 'string', 'max:255'],
+        'country' => ['nullable', 'string', 'max:255'],
+        'city' => ['nullable', 'string', 'max:255'],
+        'address' => ['nullable', 'string', 'max:255'],
+        'note' => ['nullable', 'string', 'max:1000'],
+    ]);
 
-        $validated=$request->validate(
-            [
-                'name' => ['required', 'string', 'max:255'],
-                'email' => ['required', 'string', 'email', 'max:255'],
-                'company_name' => ['nullable', 'string', 'max:255'],
-                'country' => ['nullable', 'string', 'max:255'],
-                'city' => ['nullable', 'string', 'max:255'],
-                'address' => ['nullable', 'string', 'max:255'],
-                'note' => ['nullable', 'string', 'max:1000'], 
-            ]
-            );
+    $customer = Customer::create($validated);
 
-            Customer::create($validated);
+    return response()->json([
+        'message' => 'Customer added successfully',
+        'customer' => $customer
+    ]);
+}
 
-            return redirect()->route('customer.index')->with('message','customer added successfelly');
+public function update(Request $request, Customer $customer)
+{
+    $validated = $request->validate([
+        'name' => ['required', 'string', 'max:255'],
+        'email' => ['required', 'string', 'email', 'max:255'],
+        'company_name' => ['nullable', 'string', 'max:255'],
+        'country' => ['nullable', 'string', 'max:255'],
+        'city' => ['nullable', 'string', 'max:255'],
+        'address' => ['nullable', 'string', 'max:255'],
+        'note' => ['nullable', 'string', 'max:1000'],
+    ]);
 
-    }
-    public function update(Request $request,Customer $customer)
-    {
-        $validated=$request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255'],
-            'company_name' => ['nullable', 'string', 'max:255'],
-            'country' => ['nullable', 'string', 'max:255'],
-            'city' => ['nullable', 'string', 'max:255'],
-            'address' => ['nullable', 'string', 'max:255'],
-            'note' => ['nullable', 'string', 'max:1000'], 
-        ]);
+    $customer->update($validated);
 
-        $customer->update($validated);
+    return response()->json([
+        'message' => 'Customer information updated successfully!',
+        'customer' => $customer
+    ]);
+}
 
-        return redirect()->route('customer.index')->with('message','customer information updated successfully!');
-
-    }
-    public function delete(Request $request,Customer $customer)
-    {
-        $customer->delete();
-        return redirect()->route('customer.index')->with('message','customer information deleted successfully!');
-    }
+public function delete(Request $request, Customer $customer)
+{
+    $customer->delete();
+    return response()->json([
+        'message' => 'Customer information deleted successfully!'
+    ]);
+}
 }
