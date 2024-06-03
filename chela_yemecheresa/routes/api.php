@@ -1,15 +1,19 @@
+
+
+
 <?php
 
-use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+
+use App\Http\Controllers\ProfileController;
+
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\VendorController;
 use App\Http\Controllers\IncomeTransactionController;
 use App\Http\Controllers\ExpenseTransactionController;
 use App\Http\Controllers\SettingsController;
-use App\Models\ExpenseTransaction;
-use App\Models\IncomeTransaction;
+
 
 Route::get('/', function () {
     return view('welcome');
@@ -24,7 +28,7 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
-Route::middleware(['role:admin'])->group(function(){
+
     Route::get('customer/index',[CustomerController::class,'index'])->name('customer.index');
     Route::get('customer/{customer}/edit',[CustomerController::class,'edit'])->name('customer.edit');
     Route::post('customer/store/',[CustomerController::class,'store'])->name('customer.store');
@@ -39,9 +43,10 @@ Route::middleware(['role:admin'])->group(function(){
     Route::patch('vendor/update/{vendor}',[VendorController::class,'update'])->name('vendor.update');
 
 
-    Route::get('account/index',[AccountController::class,'index'])->name('account.index');
+    
     Route::get('account/{account}/edit',[AccountController::class,'edit'])->name('account.edit');
-    Route::post('account/store/',[AccountController::class,'store'])->name('account.store');
+ 
+    
     Route::delete('account/delete/{account}',[AccountController::class,'delete'])->name('account.delete');
     Route::patch('account/update/{account}',[AccountController::class,'update'])->name('account.update');
 
@@ -57,7 +62,19 @@ Route::middleware(['role:admin'])->group(function(){
     Route::delete('expensetransaction/delete/{expensetransaction}',[ExpenseTransactionController::class,'delete'])->name('expensetransaction.delete');
     Route::patch('expensetransaction/update/{expensetransaction}',[ExpenseTransactionController::class,'update'])->name('expensetransaction.update');
 
-    Route::get('/showsettings', [SettingsController::class, 'showSettings'])->name('settings.show');
-});
+    Route::get('/totalincome',[IncomeTransactionController::class,'totalincome'])->name('incometransaction.totalincome');
+    Route::get('incometransaction/{incometransaction}/edit',[IncomeTransactionController::class,'edit'])->name('incometransaction.edit');
+    Route::post('incometransaction/store',[IncomeTransactionController::class,'store'])->name('incometransaction.store');
+    Route::delete('incometransaction/delete/{incometransaction}',[IncomeTransactionController::class,'delete'])->name('incometransaction.delete');
+    Route::patch('incometransaction/update/{incometransaction}',[IncomeTransactionController::class,'update'])->name('incometransaction.update');
+    Route::get('/allincome',[IncomeTransactionController::class,'allincome'])->name('incometransaction.allincome');
 
+    Route::get('/showsettings', [SettingsController::class, 'showSettings'])->name('settings.show');
+
+Route::get('account/allaccounts',[AccountController::class,'index'])->name('account.index');
+Route::post('account/store',[AccountController::class,'store'])->name('account.store');
+Route::get('account/showadd',[AccountController::class,'showadd'])->name('account.showadd');
+Route::get('account/view/{account}',[AccountController::class,'view'])->name('account.view');
 require __DIR__.'/auth.php';
+
+k
