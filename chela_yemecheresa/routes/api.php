@@ -77,4 +77,3 @@ Route::get('account/showadd',[AccountController::class,'showadd'])->name('accoun
 Route::get('account/view/{account}',[AccountController::class,'view'])->name('account.view');
 require __DIR__.'/auth.php';
 
-k
