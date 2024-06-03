@@ -8,6 +8,7 @@ use App\Http\Controllers\VendorController;
 use App\Http\Controllers\IncomeTransactionController;
 use App\Http\Controllers\ExpenseTransactionController;
 use App\Http\Controllers\SettingsController;
+use App\Http\Controllers\UserManagmentController;
 use App\Models\ExpenseTransaction;
 use App\Models\IncomeTransaction;
 
@@ -59,5 +60,13 @@ Route::middleware(['role:admin'])->group(function(){
 
     Route::get('/showsettings', [SettingsController::class, 'showSettings'])->name('settings.show');
 });
+
+Route::get('/allusers',[UserManagmentController::class,'allusers'])->name('usermanagment.allusers');
+Route::get('/allroles',[UserManagmentController::class,'allroles'])->name('usermanagment.allroles');
+Route::get('/createrole',[UserManagmentController::class,'createrole'])->name('usermanagment.createrole');
+Route::post('/viewrole/{role}',[UserManagmentController::class,'viewrole'])->name('usermanagment.viewrole');
+Route::post('/editrole/{role}',[UserManagmentController::class,'editrole'])->name('usermanagment.editrole');
+Route::post('/updaterole/{role}',[UserManagmentController::class,'updaterole'])->name('usermanagment.updaterole');
+Route::post('/deleterole/{role}',[UserManagmentController::class,'deleterole'])->name('usermanagment.deleterole');
 
 require __DIR__.'/auth.php';

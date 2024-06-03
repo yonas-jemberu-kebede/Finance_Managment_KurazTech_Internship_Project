@@ -1,7 +1,7 @@
 <?php
 use Spatie\LaravelSettings\Migrations\SettingsMigration;
 
-class CreateEmailSettingsTable extends SettingsMigration
+class CreateEmailSettings extends SettingsMigration
 {
     public function up(): void
     {

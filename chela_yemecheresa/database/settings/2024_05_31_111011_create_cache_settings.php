@@ -2,7 +2,7 @@
 
 use Spatie\LaravelSettings\Migrations\SettingsMigration;
 
-return new class extends SettingsMigration
+class CreateCacheSettings  extends SettingsMigration
 {
     public function up(): void
     {

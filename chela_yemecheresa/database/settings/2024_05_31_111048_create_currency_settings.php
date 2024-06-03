@@ -2,7 +2,7 @@
 
 use Spatie\LaravelSettings\Migrations\SettingsMigration;
 
- class createcurrency extends SettingsMigration
+ class CreateCurrencySettings extends SettingsMigration
 {
     public function up(): void
     {

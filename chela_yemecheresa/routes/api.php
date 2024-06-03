@@ -13,6 +13,7 @@ use App\Http\Controllers\VendorController;
 use App\Http\Controllers\IncomeTransactionController;
 use App\Http\Controllers\ExpenseTransactionController;
 use App\Http\Controllers\SettingsController;
+use App\Http\Controllers\UserManagmentController;
 
 
 Route::get('/', function () {
@@ -75,5 +76,13 @@ Route::get('account/allaccounts',[AccountController::class,'index'])->name('acco
 Route::post('account/store',[AccountController::class,'store'])->name('account.store');
 Route::get('account/showadd',[AccountController::class,'showadd'])->name('account.showadd');
 Route::get('account/view/{account}',[AccountController::class,'view'])->name('account.view');
+Route::get('/allusers',[UserManagmentController::class,'allusers'])->name('usermanagment.allusers');
+Route::get('/allroles',[UserManagmentController::class,'allroles'])->name('usermanagment.allroles');
+Route::get('/createrole',[UserManagmentController::class,'createrole'])->name('usermanagment.createrole');
+Route::post('/storerole',[UserManagmentController::class,'storerole'])->name('usermanagment.storerole');
+Route::get('/viewrole/{role}',[UserManagmentController::class,'viewrole'])->name('usermanagment.viewrole');
+Route::get('/editrole/{role}',[UserManagmentController::class,'editrole'])->name('usermanagment.editrole');
+Route::put('/updaterole/{role}',[UserManagmentController::class,'updaterole'])->name('usermanagment.updaterole');
+Route::delete('/deleterole/{role}',[UserManagmentController::class,'deleterole'])->name('usermanagment.deleterole');
 require __DIR__.'/auth.php';
 
