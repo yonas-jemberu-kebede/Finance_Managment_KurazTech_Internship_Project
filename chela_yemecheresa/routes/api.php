@@ -45,11 +45,13 @@ Route::middleware('auth')->group(function () {
 
 
     
-    Route::get('account/{account}/edit',[AccountController::class,'edit'])->name('account.edit');
- 
-    
-    Route::delete('account/delete/{account}',[AccountController::class,'delete'])->name('account.delete');
-    Route::patch('account/update/{account}',[AccountController::class,'update'])->name('account.update');
+ Route::get('account/index',[AccountController::class,'index'])->name('account.index');
+ Route::post('/account/store',[AccountController::class,'store'])->name('account.store');
+ Route::get('/account/showadd',[AccountController::class,'showadd'])->name('account.showadd');
+ Route::get('/account/view/{account}',[AccountController::class,'view'])->name('account.view');
+Route::get('account/{account}/edit',[AccountController::class,'edit'])->name('account.edit');
+ Route::delete('account/delete/{account}',[AccountController::class,'delete'])->name('account.delete');
+Route::patch('account/update/{account}',[AccountController::class,'update'])->name('account.update');
 
    
     
@@ -63,6 +65,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('expensetransaction/delete/{expensetransaction}',[ExpenseTransactionController::class,'delete'])->name('expensetransaction.delete');
     Route::patch('expensetransaction/update/{expensetransaction}',[ExpenseTransactionController::class,'update'])->name('expensetransaction.update');
 
+
     Route::get('/totalincome',[IncomeTransactionController::class,'totalincome'])->name('incometransaction.totalincome');
     Route::get('incometransaction/{incometransaction}/edit',[IncomeTransactionController::class,'edit'])->name('incometransaction.edit');
     Route::post('incometransaction/store',[IncomeTransactionController::class,'store'])->name('incometransaction.store');
@@ -72,13 +75,18 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/showsettings', [SettingsController::class, 'showSettings'])->name('settings.show');
 
-    Route::get('account/index',[AccountController::class,'index'])->name('account.index');
-Route::post('/account/store',[AccountController::class,'store'])->name('account.store');
-Route::get('/account/showadd',[AccountController::class,'showadd'])->name('account.showadd');
-Route::get('/account/view/{account}',[AccountController::class,'view'])->name('account.view');
 
 
 Route::get('/allusers',[UserManagmentController::class,'allusers'])->name('usermanagment.allusers');
+Route::post('/registersanctum', [AuthController::class, 'register']);
+Route::post('/loginsanctum', [AuthController::class, 'login']);
+Route::post('/logoutsanctum', [AuthController::class, 'logout'])->middleware('auth:sanctum');
+//Route::middleware('auth:sanctum')->get('/user', function (Request $request) {return $request->user();});
+Route::get('/viewuser/{user}',[UserManagmentController::class,'viewuser'])->name('usermanagment.viewuser');
+Route::get('/edituser/{user}',[UserManagmentController::class,'edituser'])->name('usermanagment.edituser');
+Route::put('/updateuser/{user}',[UserManagmentController::class,'updateuser'])->name('usermanagment.updateuser');
+Route::delete('/deleteuser/{user}',[UserManagmentController::class,'deleteuser'])->name('usermanagment.deleteuser');
+
 Route::get('/allroles',[UserManagmentController::class,'allroles'])->name('usermanagment.allroles');
 Route::get('/createrole',[UserManagmentController::class,'createrole'])->name('usermanagment.createrole');
 Route::post('/storerole',[UserManagmentController::class,'storerole'])->name('usermanagment.storerole');
@@ -86,9 +94,6 @@ Route::get('/viewrole/{role}',[UserManagmentController::class,'viewrole'])->name
 Route::get('/editrole/{role}',[UserManagmentController::class,'editrole'])->name('usermanagment.editrole');
 Route::put('/updaterole/{role}',[UserManagmentController::class,'updaterole'])->name('usermanagment.updaterole');
 Route::delete('/deleterole/{role}',[UserManagmentController::class,'deleterole'])->name('usermanagment.deleterole');
-Route::post('/registersanctum', [AuthController::class, 'register']);
-Route::post('/loginsanctum', [AuthController::class, 'login']);
-Route::post('/logoutsanctum', [AuthController::class, 'logout'])->middleware('auth:sanctum');
-//Route::middleware('auth:sanctum')->get('/user', function (Request $request) {return $request->user();});
+
 require __DIR__.'/auth.php';
 

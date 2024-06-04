@@ -68,6 +68,38 @@ class UserManagmentController extends Controller
     public function deleterole(Role $role,Request $request){
     $role->delete();
     return response()->json(['message','role deleted successfully']);
+    }
+
+
+
+
+    public function viewuser(User $user){
+        return response()->json([
+            'user'=>$user
+        ]);
+    }
+    public function edituser(User $user){
+        return view('user.edit',[
+            'user'=>$user
+        ]);
+    }
+
+    public function updateuser(User $user,Request $request){
+
+        $validated=$request->validate([
+            'name'=>['required','string'],
+            'description'=>['nullable','string']
+        ]);
+        $user->update($validated);
+
+        return response()->json([
+            'message','user updated successfully'
+        ]);
+    }
+
+    public function deleteuser(User $user,Request $request){
+    $user->delete();
+    return response()->json(['message','user deleted successfully']);
 
     }
 }
