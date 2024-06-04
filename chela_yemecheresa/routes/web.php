@@ -36,9 +36,9 @@ Route::middleware(['role:admin'])->group(function(){
     Route::patch('vendor/update/{vendor}',[VendorController::class,'update'])->name('vendor.update');
 
 
-    Route::get('account/index',[AccountController::class,'index'])->name('account.index');
+    
     Route::get('account/{account}/edit',[AccountController::class,'edit'])->name('account.edit');
-    Route::post('account/store/',[AccountController::class,'store'])->name('account.store');
+    Route::post('account/store',[AccountController::class,'store'])->name('account.store');
     Route::delete('account/delete/{account}',[AccountController::class,'delete'])->name('account.delete');
     Route::patch('account/update/{account}',[AccountController::class,'update'])->name('account.update');
 
@@ -64,7 +64,9 @@ Route::post('/viewrole/{role}',[UserManagmentController::class,'viewrole'])->nam
 Route::post('/editrole/{role}',[UserManagmentController::class,'editrole'])->name('usermanagment.editrole');
 Route::post('/updaterole/{role}',[UserManagmentController::class,'updaterole'])->name('usermanagment.updaterole');
 Route::post('/deleterole/{role}',[UserManagmentController::class,'deleterole'])->name('usermanagment.deleterole');
-Route::post('/register', [AuthController::class, 'register']);
+Route::post('//register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
+
+Route::get('account/index',[AccountController::class,'index'])->name('account.index');
 Route::middleware('auth:sanctum')->post('/logout', [AuthController::class, 'logout']);
 require __DIR__.'/auth.php';

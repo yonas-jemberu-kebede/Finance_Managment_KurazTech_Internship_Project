@@ -66,16 +66,18 @@ Route::middleware('auth')->group(function () {
     Route::get('/totalincome',[IncomeTransactionController::class,'totalincome'])->name('incometransaction.totalincome');
     Route::get('incometransaction/{incometransaction}/edit',[IncomeTransactionController::class,'edit'])->name('incometransaction.edit');
     Route::post('incometransaction/store',[IncomeTransactionController::class,'store'])->name('incometransaction.store');
-    Route::delete('incometransaction/delete/{incometransaction}',[IncomeTransactionController::class,'delete'])->name('incometransaction.delete');
+    Route::delete('/incometransaction/delete/{incometransaction}',[IncomeTransactionController::class,'delete'])->name('incometransaction.delete');
     Route::patch('incometransaction/update/{incometransaction}',[IncomeTransactionController::class,'update'])->name('incometransaction.update');
     Route::get('/allincome',[IncomeTransactionController::class,'allincome'])->name('incometransaction.allincome');
 
     Route::get('/showsettings', [SettingsController::class, 'showSettings'])->name('settings.show');
 
-Route::get('account/allaccounts',[AccountController::class,'index'])->name('account.index');
-Route::post('account/store',[AccountController::class,'store'])->name('account.store');
-Route::get('account/showadd',[AccountController::class,'showadd'])->name('account.showadd');
-Route::get('account/view/{account}',[AccountController::class,'view'])->name('account.view');
+    Route::get('account/index',[AccountController::class,'index'])->name('account.index');
+Route::post('/account/store',[AccountController::class,'store'])->name('account.store');
+Route::get('/account/showadd',[AccountController::class,'showadd'])->name('account.showadd');
+Route::get('/account/view/{account}',[AccountController::class,'view'])->name('account.view');
+
+
 Route::get('/allusers',[UserManagmentController::class,'allusers'])->name('usermanagment.allusers');
 Route::get('/allroles',[UserManagmentController::class,'allroles'])->name('usermanagment.allroles');
 Route::get('/createrole',[UserManagmentController::class,'createrole'])->name('usermanagment.createrole');
