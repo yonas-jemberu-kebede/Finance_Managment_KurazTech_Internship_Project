@@ -86,9 +86,9 @@ Route::get('/viewrole/{role}',[UserManagmentController::class,'viewrole'])->name
 Route::get('/editrole/{role}',[UserManagmentController::class,'editrole'])->name('usermanagment.editrole');
 Route::put('/updaterole/{role}',[UserManagmentController::class,'updaterole'])->name('usermanagment.updaterole');
 Route::delete('/deleterole/{role}',[UserManagmentController::class,'deleterole'])->name('usermanagment.deleterole');
-Route::post('/register', [AuthController::class, 'register']);
-Route::post('/login', [AuthController::class, 'login']);
-Route::middleware('auth:sanctum')->post('/logout', [AuthController::class, 'logout']);
+Route::post('/registersanctum', [AuthController::class, 'register']);
+Route::post('/loginsanctum', [AuthController::class, 'login']);
+Route::post('/logoutsanctum', [AuthController::class, 'logout'])->middleware('auth:sanctum');
 //Route::middleware('auth:sanctum')->get('/user', function (Request $request) {return $request->user();});
 require __DIR__.'/auth.php';
 

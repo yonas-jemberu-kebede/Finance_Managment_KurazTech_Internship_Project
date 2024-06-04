@@ -6,11 +6,16 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Facades\Log;
+
+
 
 class AuthController extends Controller
 {
     public function register(Request $request)
     {
+        Log::info('Register method called.');
+    Log::info('Request data: ', $request->all());
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
@@ -37,8 +42,13 @@ class AuthController extends Controller
     ]);
         $token = $user->createToken('auth_token')->plainTextToken;
 
-        return response()->json(['token' => $token,
-    'message'=>'user created successfully'], 201);
+        return response()->json([
+            'token' => $token,
+
+    'message'=>'user created successfully'
+], 201
+);
+Log::info('User creation attempted.');
     }
 
     public function login(Request $request)

@@ -64,8 +64,8 @@ Route::post('/viewrole/{role}',[UserManagmentController::class,'viewrole'])->nam
 Route::post('/editrole/{role}',[UserManagmentController::class,'editrole'])->name('usermanagment.editrole');
 Route::post('/updaterole/{role}',[UserManagmentController::class,'updaterole'])->name('usermanagment.updaterole');
 Route::post('/deleterole/{role}',[UserManagmentController::class,'deleterole'])->name('usermanagment.deleterole');
-Route::post('//register', [AuthController::class, 'register']);
-Route::post('/login', [AuthController::class, 'login']);
+Route::post('/registersanctum', [AuthController::class, 'register']);
+Route::post('/loginsanctum', [AuthController::class, 'login']);
 
 Route::get('account/index',[AccountController::class,'index'])->name('account.index');
 Route::middleware('auth:sanctum')->post('/logout', [AuthController::class, 'logout']);
