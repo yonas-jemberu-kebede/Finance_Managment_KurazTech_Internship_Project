@@ -13,9 +13,13 @@ class RoleSeeder extends Seeder
      */
     public function run(): void
     {
+       
         Permission::create(['name'=>'create']);
+       
         Permission::create(['name'=>'update']);
+        
         Permission::create(['name'=>'read']);
+        
         Permission::create(['name'=>'delete']);
         
 

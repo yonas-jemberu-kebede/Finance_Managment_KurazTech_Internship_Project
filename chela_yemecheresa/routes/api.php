@@ -30,16 +30,18 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-    Route::get('customer/index',[CustomerController::class,'index'])->name('customer.index');
-    Route::get('customer/{customer}/edit',[CustomerController::class,'edit'])->name('customer.edit');
-    Route::post('customer/store/',[CustomerController::class,'store'])->name('customer.store');
-    Route::delete('customer/delete/{customer}',[CustomerController::class,'delete'])->name('customer.delete');
-    Route::patch('customer/update/{customer}',[CustomerController::class,'update'])->name('customer.update');
+    Route::get('/customer/index',[CustomerController::class,'index'])->name('customer.index');
+    Route::get('/customer/{customer}/edit',[CustomerController::class,'edit'])->name('customer.edit');
+    
+    Route::post('/customer/store',[CustomerController::class,'store'])->name('customer.store');
+    
+    Route::delete('/customer/delete/{customer}',[CustomerController::class,'delete'])->name('customer.delete');
+    Route::patch('/customer/update/{customer}',[CustomerController::class,'update'])->name('customer.update');
 
 
     Route::get('vendor/index',[VendorController::class,'index'])->name('vendor.index');
     Route::get('vendor/{vendor}/edit',[VendorController::class,'edit'])->name('vendor.edit');
-    Route::post('vendor/store/',[VendorController::class,'store'])->name('vendor.store');
+    Route::post('/vendor/store/',[VendorController::class,'store'])->name('vendor.store');
     Route::delete('vendor/delete/{vendor}',[VendorController::class,'delete'])->name('vendor.delete');
     Route::patch('vendor/update/{vendor}',[VendorController::class,'update'])->name('vendor.update');
 
@@ -73,8 +75,7 @@ Route::patch('account/update/{account}',[AccountController::class,'update'])->na
     Route::patch('incometransaction/update/{incometransaction}',[IncomeTransactionController::class,'update'])->name('incometransaction.update');
     Route::get('/allincome',[IncomeTransactionController::class,'allincome'])->name('incometransaction.allincome');
 
-    Route::get('/showsettings', [SettingsController::class, 'showSettings'])->name('settings.show');
-
+  
 
 
 Route::get('/allusers',[UserManagmentController::class,'allusers'])->name('usermanagment.allusers');
@@ -95,5 +96,12 @@ Route::get('/editrole/{role}',[UserManagmentController::class,'editrole'])->name
 Route::put('/updaterole/{role}',[UserManagmentController::class,'updaterole'])->name('usermanagment.updaterole');
 Route::delete('/deleterole/{role}',[UserManagmentController::class,'deleterole'])->name('usermanagment.deleterole');
 
+
+
+Route::get('/showgeneralsetting', [SettingsController::class, 'showGeneralSettings'])->name('settings.show');
+Route::patch('/updategeneralsetting', [SettingsController::class, 'updateGeneralSettings'])->name('settings.update');
+
+Route::get('/showemailsetting', [SettingsController::class, 'showEmailSettings'])->name('settings.show');
+Route::patch('/updateemailsetting', [SettingsController::class, 'updateEmailSettings'])->name('settings.update');
 require __DIR__.'/auth.php';
 

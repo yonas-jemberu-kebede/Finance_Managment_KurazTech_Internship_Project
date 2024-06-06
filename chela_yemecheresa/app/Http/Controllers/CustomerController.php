@@ -47,13 +47,13 @@ public function store(Request $request)
         'address' => ['nullable', 'string', 'max:255'],
         'note' => ['nullable', 'string', 'max:1000'],
     ]);
-
     $customer = Customer::create($validated);
 
     return response()->json([
         'message' => 'Customer added successfully',
         'customer' => $customer
     ]);
+    
 }
 
 public function update(Request $request, Customer $customer)

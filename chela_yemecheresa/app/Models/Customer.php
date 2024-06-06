@@ -8,7 +8,14 @@ use Illuminate\Database\Eloquent\Model;
 class Customer extends Model
 {
     use HasFactory;
-    protected $guraded=[];
+    protected $fillable=["name" ,
+  "email",
+  "company_name",
+  "country",
+  "city" ,
+  "address",
+  "note"
+];
     
     public function incometransaction(){
         return $this->hasMany(IncomeTransaction::class);

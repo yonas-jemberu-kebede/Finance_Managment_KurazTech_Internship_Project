@@ -24,7 +24,7 @@ Route::middleware('auth')->group(function () {
 Route::middleware(['role:admin'])->group(function(){
     Route::get('customer/index',[CustomerController::class,'index'])->name('customer.index');
     Route::get('customer/{customer}/edit',[CustomerController::class,'edit'])->name('customer.edit');
-    Route::post('customer/store/',[CustomerController::class,'store'])->name('customer.store');
+    
     Route::delete('customer/delete/{customer}',[CustomerController::class,'delete'])->name('customer.delete');
     Route::patch('customer/update/{customer}',[CustomerController::class,'update'])->name('customer.update');
 
@@ -54,8 +54,10 @@ Route::middleware(['role:admin'])->group(function(){
     Route::delete('/expensetransaction/delete/{expensetransaction}',[ExpenseTransactionController::class,'delete'])->name('expensetransaction.delete');
     Route::patch('/expensetransaction/update/{expensetransaction}',[ExpenseTransactionController::class,'update'])->name('expensetransaction.update');
 
-    Route::get('/showsettings', [SettingsController::class, 'showSettings'])->name('settings.show');
+    
 });
+Route::get('/showsettings', [SettingsController::class, 'showSettings'])->name('settings.show');
+Route::patch('/updatesetting', [SettingsController::class, 'updateSettings'])->name('settings.update');
 
 Route::get('/allusers',[UserManagmentController::class,'allusers'])->name('usermanagment.allusers');
 Route::get('/allroles',[UserManagmentController::class,'allroles'])->name('usermanagment.allroles');
@@ -66,6 +68,8 @@ Route::post('/updaterole/{role}',[UserManagmentController::class,'updaterole'])-
 Route::post('/deleterole/{role}',[UserManagmentController::class,'deleterole'])->name('usermanagment.deleterole');
 Route::post('/registersanctum', [AuthController::class, 'register']);
 Route::post('/loginsanctum', [AuthController::class, 'login']);
+
+Route::post('/customer/store/',[CustomerController::class,'store'])->name('customer.store');
 
 Route::get('account/index',[AccountController::class,'index'])->name('account.index');
 Route::middleware('auth:sanctum')->post('/logout', [AuthController::class, 'logout']);

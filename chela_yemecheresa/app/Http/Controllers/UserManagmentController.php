@@ -38,7 +38,7 @@ class UserManagmentController extends Controller
 
             Role::create($validated);
              
-            return redirect()->with('message','role created successfully');
+            return redirect()->json(['message'=>'role created successfully']);
     }
 
     public function viewrole(Role $role){
