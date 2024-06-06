@@ -16,6 +16,7 @@ use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\UserManagmentController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PaymentMethodController;
+use App\Http\Controllers\TransactionCategoryController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -105,6 +106,12 @@ Route::get('/paymentmethod/view/{paymentmethod}',[PaymentMethodController::class
 Route::post('/paymentmethod/store',[PaymentMethodController::class,'store']);
 
 
+Route::get('/allcategories',[TransactionCategoryController::class,'index']);
+Route::get('/category/edit/{category}',[TransactionCategoryController::class,'edit']);
+Route::patch('/category/update/{category}',[TransactionCategoryController::class,'update']);
+Route::delete('/category/delete/{category}',[TransactionCategoryController::class,'delete']);
+Route::get('/category/view/{category}',[TransactionCategoryController::class,'show']);
+Route::post('/category/store',[TransactionCategoryController::class,'store']);
 
 
 Route::get('/showgeneralsetting', [SettingsController::class, 'showGeneralSettings'])->name('settings.show');
