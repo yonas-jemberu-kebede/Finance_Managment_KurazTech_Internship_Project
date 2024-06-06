@@ -9,14 +9,22 @@ class PaymentMethodController extends Controller
 {
     public function index(){
         $allpaymentmethods=PaymentMethod::all();
-        return view ('paymentmethod.index',[
+
+        return response()->json([
             'paymentmethods'=>$allpaymentmethods
         ]
         );
     }
+
+    public function view(PaymentMethod $paymentmethod){
+
+        return response()->json( [
+            'paymentmethod'=>$paymentmethod
+        ]);
+    }
     public function edit(PaymentMethod $paymentmethod){
 
-        return view('paymentmethod.edit', [
+        return view([
             'paymentmethod'=>$paymentmethod
         ]);
     }
@@ -24,29 +32,37 @@ class PaymentMethodController extends Controller
 
         $validated=$request->validate(
             [
-
+                'name' => ['required', 'string', 'max:255'],
             ]
             );
 
-            PaymentMethod::create($validated);
+            $paymentmethod=PaymentMethod::create($validated);
 
-            return redirect()->route('paymentmethod.index')->with('message','paymentmethod added successfelly');
+            return response()->json([
+                'payment method'=>$paymentmethod,
+                'message'=> 'paymentmethod added successfully'
+            ]);
 
     }
     public function update(Request $request,PaymentMethod $paymentmethod)
     {
         $validated=$request->validate([
-
+'name' => ['required', 'string', 'max:255'],
         ]);
 
         $paymentmethod->update($validated);
 
-        return redirect()->route('paymentmethod.index')->with('message','paymentmethod information updated successfully!');
+        return response()->json([
+            'payment method'=>$paymentmethod,
+            'message'=>'paymentmethod updated successfully']);
 
     }
+
     public function delete(Request $request,PaymentMethod $paymentmethod)
     {
         $paymentmethod->delete();
-        return redirect()->route('paymentmethod.index')->with('message','paymentmethod information deleted successfully!');
+        return response()->json([
+          
+            'message'=>'paymentmethod deleted successfully']);
     }
 }

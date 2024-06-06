@@ -15,6 +15,7 @@ use App\Http\Controllers\ExpenseTransactionController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\UserManagmentController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\PaymentMethodController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -95,6 +96,14 @@ Route::get('/viewrole/{role}',[UserManagmentController::class,'viewrole'])->name
 Route::get('/editrole/{role}',[UserManagmentController::class,'editrole'])->name('usermanagment.editrole');
 Route::put('/updaterole/{role}',[UserManagmentController::class,'updaterole'])->name('usermanagment.updaterole');
 Route::delete('/deleterole/{role}',[UserManagmentController::class,'deleterole'])->name('usermanagment.deleterole');
+
+Route::get('/allpaymentmethods',[PaymentMethodController::class,'index']);
+Route::get('/paymentmethod/edit/{paymentmethod}',[PaymentMethodController::class,'edit']);
+Route::patch('/paymentmethod/update/{paymentmethod}',[PaymentMethodController::class,'update']);
+Route::delete('/paymentmethod/delete/{paymentmethod}',[PaymentMethodController::class,'delete']);
+Route::get('/paymentmethod/view/{paymentmethod}',[PaymentMethodController::class,'view']);
+Route::post('/paymentmethod/store',[PaymentMethodController::class,'store']);
+
 
 
 
