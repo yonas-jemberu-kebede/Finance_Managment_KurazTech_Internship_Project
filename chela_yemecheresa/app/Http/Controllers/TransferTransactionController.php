@@ -115,7 +115,7 @@ $targetaccount->save();
 
         $companyaccount=CompanyAccount::where('name',$request->input('company_account_name'))->first();
         $targetaccount=Account::where('name',$request->input('target_account_name'))->firstOrFail();
-        $paymentmethod=PaymentMethod::where('name',$request->input('payment_method_name'))->firstOrFail();
+       $paymentmethod=PaymentMethod::where('name',$request->input('payment_method_name'))->firstOrFail();
         if(!$companyaccount|| !$targetaccount){
             return response()->json([
                 'error'=>'one or more account is not found'
@@ -124,10 +124,10 @@ $targetaccount->save();
 
 $previoustransfer=$transfertransaction->amount;
 $companyaccount->amount+=$previoustransfer;
-$targetaccount->currency_balance-=$previoustransfer;
+$targetaccount->current_balance-=$previoustransfer;
 
 $companyaccount->amount-=$request->input('amount');
-$targetaccount->currency_balance+=$request->input('amount');
+$targetaccount->current_balance+=$request->input('amount');
 
 $companyaccount->save();
 $targetaccount->save();
@@ -141,7 +141,7 @@ $targetaccount->save();
 
             'account_id' => $companyaccount->id,
             'target_account_id' => $targetaccount->id,
- 
+            'payment_method_id' => $paymentmethod->id,
         ]);
 
         return response()->json([

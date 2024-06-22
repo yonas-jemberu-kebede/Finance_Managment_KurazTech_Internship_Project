@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('accounts', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('currency_manager_id'); 
+           //$table->unsignedBigInteger('currency_manager_id'); 
             $table->string('name');
             $table->string('account_number')->unique();
             $table->decimal('opening_balance',15,2);
@@ -24,7 +24,7 @@ return new class extends Migration
             $table->string('note')->nullable();
             
            
-            $table->foreign('currency_manager_id')->references('id')->on('currency_managers')->onDelete('cascade');
+            //$table->foreign('currency_manager_id')->references('id')->on('currency_managers')->onDelete('cascade');
             $table->timestamps();
         });
     }

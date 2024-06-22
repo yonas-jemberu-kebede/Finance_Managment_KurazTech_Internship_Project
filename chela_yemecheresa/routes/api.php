@@ -37,10 +37,8 @@ Route::middleware('auth')->group(function () {
 });
 
     Route::get('/customer/index',[CustomerController::class,'index'])->name('customer.index');
-    Route::get('/customer/{customer}/edit',[CustomerController::class,'edit'])->name('customer.edit');
-    
+    Route::get('/customer/{customer}/edit',[CustomerController::class,'edit'])->name('customer.edit');  
     Route::post('/customer/store',[CustomerController::class,'store'])->name('customer.store');
-    
     Route::delete('/customer/delete/{customer}',[CustomerController::class,'delete'])->name('customer.delete');
     Route::patch('/customer/update/{customer}',[CustomerController::class,'update'])->name('customer.update');
 
@@ -114,6 +112,7 @@ Route::patch('/paymentmethod/update/{paymentmethod}',[PaymentMethodController::c
 Route::delete('/paymentmethod/delete/{paymentmethod}',[PaymentMethodController::class,'delete']);
 Route::get('/paymentmethod/view/{paymentmethod}',[PaymentMethodController::class,'view']);
 Route::post('/paymentmethod/store',[PaymentMethodController::class,'store']);
+
 
 
 Route::get('/allexpensecategories',[ExpenseTransactionCategoryController::class,'index']);

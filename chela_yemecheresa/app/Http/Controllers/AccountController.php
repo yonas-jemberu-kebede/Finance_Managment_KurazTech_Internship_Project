@@ -43,7 +43,7 @@ class AccountController extends Controller
     $validated = $request->validate([
         'name' => ['required', 'string', 'max:255'],
         'account_number' => ['required', 'string', 'max:255', 'unique:accounts'],
-        'account_currency' => ['required', 'string', 'exists:currency_managers,name'],
+        //'account_currency' => ['required', 'string', 'exists:currency_managers,name'],
         'opening_balance' => ['required', 'numeric', 'between:25.00,99999999999999999999.99'],
         'contact_person' => ['nullable', 'string', 'max:255'],
         'contact_email' => ['nullable', 'string', 'email', 'max:255'],
@@ -52,7 +52,7 @@ class AccountController extends Controller
 $currency=currency_manager::where('name',$request->input('account_currency'));
     $account = Account::create([
 'name'=>$validated['name'],
-'currency_manager_id'=>$currency->id,
+//'currency_manager_id'=>$currency->id,
 'account_number'=>$validated['account_number'],
 'opening_balance'=>$validated['opening_balance'],
 'contact_person'=>$validated['contact_person'],
