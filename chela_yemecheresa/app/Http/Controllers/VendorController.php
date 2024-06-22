@@ -65,8 +65,8 @@ public function update(Request $request, Vendor $vendor)
     $validated = $request->validate([
         'name' => ['required', 'string', 'max:255'],
         'email' => ['required', 'string', 'email', 'max:255'],
-        'registration_number' => ['required', 'string', 'max:255', 'unique:vendors'],
-        'vat_id' => ['required', 'string', 'max:255', 'unique:vendors'],
+        'registration_number' => ['required', 'string'],
+        'vat_id' => ['required', 'string', 'max:255'],
         'company_name' => ['nullable', 'string', 'max:255'],
         'country' => ['nullable', 'string', 'max:255'],
         'city' => ['nullable', 'string', 'max:255'],

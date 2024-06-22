@@ -4,12 +4,12 @@ namespace App\Settings;
 
 use Spatie\LaravelSettings\Settings;
 
-class LogoAndFavicon extends Settings
+class LogoSettings extends Settings
 {
-    public string $logo_path;
-    public string $favicon_path;
-
+    public ?string $logo_url;
+    public ?string $favicon_url;
     public static function group(): string
     {
         return 'logo';
-    }}
+    }
+}

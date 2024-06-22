@@ -20,7 +20,7 @@ class TransactionCategoryController extends Controller
     
             $validated = $request->validate([
                 'name' => ['required', 'string', 'max:255'],
-                'type' => ['required', 'string', 'max:255'],
+                'type' => 'required|string|max:255|in:income,expense,other',
                 'color' => [
                     'required',
                     'string',

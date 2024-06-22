@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Models\PaymentMethod;
 use App\Models\Account;
 use App\Models\Vendor;
+use App\Models\TransactionCategory;
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\ExpenseTransaction>
  */
@@ -27,8 +28,8 @@ class ExpenseTransactionFactory extends Factory
        
         'account_id' => Account::factory()->create()->id,
        
-        'vendor_id' => Vendor::factory()->create()->id
-       
+        'vendor_id' => Vendor::factory()->create()->id,
+        'transaction_category_id' => TransactionCategory::factory()->create()->id
         ];
     }
 }

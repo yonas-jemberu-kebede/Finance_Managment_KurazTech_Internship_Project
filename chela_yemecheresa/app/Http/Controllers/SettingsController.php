@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Settings\CurrencySettings;
+
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
 use App\Settings\GeneralSettings;
 use App\Settings\EmailSettings;
+use App\Settings\CurrencySettings;
+use App\Settings\LogoSettings;
+use App\Settings\CacheSettings;
 class SettingsController extends Controller
 {
     public function showGeneralSettings(GeneralSettings $settings)
@@ -65,64 +67,144 @@ class SettingsController extends Controller
     public function showEmailSettings(EmailSettings $settings){
         return response()->json([
           'Email Settings'=>[
-            ' smtp_host' => $settings->smtp_host,
-            ' smtp_port'=> $settings->smtp_port,
+            'smtp_host' => $settings->smtp_host,
+            'smtp_port'=> $settings->smtp_port,
            'smtp_username' => $settings->smtp_username,
-           ' encryption'=> $settings->encryption,
+           'encryption'=> $settings->smtp_encryption,
 
-           ' from_name' => $settings-> from_name,
+           'from_name' => $settings-> from_name,
            'smtp_password' => $settings->smtp_password,
-           ' mail_type' => $settings-> mail_type,
-           'from_emailaddress' => $settings->from_emailaddress,
+           'mail_type' => $settings-> mail_type,
+           'from_emailaddress' => $settings->from_email,
           ]
         ]);
     }
 
-    public function updateEmailSettings(Request $request,EmailSettings $emailsettings){
-        dd($request->all());
+    public function updateEmailSettings(Request $request,EmailSettings $settings){
+    
 
         $request->validate([
 
-                'smtp_host' => 'nullable|string|max:255',
-                'smtp_port' => 'nullable|integer|min:1|max:65535',
-                'smtp_username' => 'nullable|string|max:255',
-                'smtp_password' => 'nullable|string|max:255',
-                'encryption' => 'nullable|string|max:255',
-                'from_emailaddress' => 'required|email|max:255',
-                'from_name' => 'required|string|max:255',
-                'mail_type' => 'required|string|in:PHP Mail,SMTP', // Ensure mail_type is either "PHP Mail" or "SMTP"
+                'smtp_host' => 'required|string',
+                'smtp_port' => 'required|integer',
+                'smtp_username' => 'required|string',
+                'smtp_password' => 'required|string',
+                'encryption' => 'required|string',
+                'from_emailaddress' => 'required|email',
+                'from_name' => 'required|string',
+                'mail_type' => 'required|string',
+        // Ensure mail_type is either "PHP Mail" or "SMTP"
             ]);
 
             
             // Update each setting property individually
-            $emailsettings->smtp_host = $request->smtp_host;
-            $emailsettings->smtp_port = $request->smtp_port;
-            $emailsettings->smtp_username = $request->smtp_username;
-            $emailsettings->smtp_password = $request->smtp_password;
-            $emailsettings->encryption = $request->encryption;
-            $emailsettings->from_emailaddress = $request->from_emailaddress;
-            $emailsettings->from_name = $request->from_name ;
-            $emailsettings->mail_type = $request->mail_type;
+            $settings->smtp_host = $request->smtp_host;
+            $settings->smtp_port = $request->smtp_port;
+            $settings->smtp_username = $request->smtp_username;
+            $settings->smtp_password = $request->smtp_password;
+            $settings->encryption = $request->encryption;
+            $settings->from_emailaddress = $request->from_emailaddress;
+            $settings->from_name = $request->from_name ;
+            $settings->mail_type = $request->mail_type;
             
     
-            $emailsettings->save();
+            $settings->save();
 
             return response()->json([
                 'status' => 'Settings updated successfully!',
-                'settings' => $emailsettings->toArray(), // Optionally return updated settings
+                'settings' => $settings->toArray(), // Optionally return updated settings
             ]);
         }
 
         public function showcurrencysetting(CurrencySettings $settings){
             return response()->json([
         'currency settings'=>[
-            
+            'currency poistion'=>$settings->currency_position,
+           'thousand separator'=> $settings->thousand_separator,
+           'decimal separator'=> $settings->decimal_separator,
+           'decimal places'=> $settings->decimal_places 
         ]
             ]);
 
 
         }
-     
+        public function showlogosettings(LogoSettings $settings){
+            return response()->json([
+              'Logo Settings'=>[
+   'logo_url'=>$settings->logo_url,
+   'favicon_url'=>$settings->favicon_url
+              ]
+            ]);
+        }
+
+        public function showcachesettings(CacheSettings $settings){
+            return response()->json([
+              'Logo Settings'=>[
+   'view cache'=>$settings->view_cache,
+   'application cache'=>$settings->application_cache
+              ]
+            ]);
+        }
+
+        public function updatecachesettings(CacheSettings $settings,Request $request){
+    
+            $request->validate([
+                'view_cache' => 'required|boolean',
+                'application_cache' => 'required|boolean',
+            ]);
+
+            $settings->view_cache = $request->view_cache;
+            $settings->application_cache = $request->application_cache;
+            $settings->save();
+
+            return response()->json([
+        'message'=>'cachesetting updated succesffuly',
+        'updated cachesetting'=>$settings
+     ]);
+        }
+
+        public function updatelogosettings(LogoSettings $settings,Request $request){
+
+$request->validate([
+    'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+    'favicon' => 'nullable|image|mimes:png|max:2048',
+]);
+
+if ($request->hasFile('logo')) {
+    $logoPath = $request->file('logo')->store('logos', 'public');
+    $settings->logo_url = $logoPath;
+}
+
+if ($request->hasFile('favicon')) {
+    $faviconPath = $request->file('favicon')->store('favicons', 'public');
+    $settings->favicon_url = $faviconPath;
+}
+
+$settings->save();
+
+            return response()->json([
+                'message'=>'Logosetting updated succesffuly',
+                'updated logosetting'=>$settings
+             ]);
+        }
+        public function updatecurrencysettings(CurrencySettings $settings,Request $request){
+            
+            $request->validate([
+                'currency_position' => 'required|string|in:left,right',
+                'thousand_separator' => 'required|string|max:1',
+                'decimal_separator' => 'required|string|max:1',
+                'decimal_places' => 'required|integer|min:0|max:10',
+            ]);
+            $settings->currency_position = $request->input('currency_position');
+        $settings->thousand_separator = $request->input('thousand_separator');
+        $settings->decimal_separator = $request->input('decimal_separator');
+        $settings->decimal_places = $request->input('decimal_places');
+        $settings->save();
+            return response()->json([
+                'message'=>'currencysetting updated succesffuly',
+                'updated currencysetting'=>$settings
+             ]);
+        }
         
     }
 

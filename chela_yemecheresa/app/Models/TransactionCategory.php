@@ -13,4 +13,11 @@ class TransactionCategory extends Model
         'type',
         'color',
     ];
+    public function income(){
+        return $this->hasMany(IncomeTransaction::class);
+    }
+    public function expense(){
+
+        return $this->hasMany(ExpenseTransaction::class);
+    }
 }
