@@ -105,6 +105,7 @@ Route::get('/viewrole/{role}',[UserManagmentController::class,'viewrole'])->name
 Route::get('/editrole/{role}',[UserManagmentController::class,'editrole'])->name('usermanagment.editrole');
 Route::put('/updaterole/{role}',[UserManagmentController::class,'updaterole'])->name('usermanagment.updaterole');
 Route::delete('/deleterole/{role}',[UserManagmentController::class,'deleterole'])->name('usermanagment.deleterole');
+Route::post('/setpermission',[UserManagmentController::class,'setpermission'])->name('usermanagment.setpermission');
 
 Route::get('/allpaymentmethods',[PaymentMethodController::class,'index']);
 Route::get('/paymentmethod/edit/{paymentmethod}',[PaymentMethodController::class,'edit']);

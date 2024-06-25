@@ -25,20 +25,23 @@ class UserManagmentController extends Controller
         ]);
         
     }
+
     public function createrole(){
         return view('role.create');
     }
+
     public function storerole(Request $request){
         $validated=$request->validate(
             [
-                'name'=>['required','string'],
-                'description'=>['nullable','string']
+                'name'=>'required|string',
+                'description'=>'nullable|string'
             ]
             );
 
+
             Role::create($validated);
              
-            return redirect()->json(['message'=>'role created successfully']);
+            return response()->json(['message'=>'role created successfully']);
     }
 
     public function viewrole(Role $role){
@@ -71,7 +74,22 @@ class UserManagmentController extends Controller
     }
 
 
+public function setpermission(Request $request){
+    $validated=$request->validate([
+        'role'=>'required|string|exists:roles,name',
+        'permissions'=>'required|array',
+        'permission.*'=>'required|string|exists:permissions,name',
+    ]);
 
+    $role=Role::findByName($validated['role']);
+    $role->syncPermissions($validated['permissions']);
+
+    return response()->json([
+        'message'=>"permission added succesfully!",
+        'role'=>$role->name,
+        'permission'=>$role->permissions
+    ]);
+}
 
     public function viewuser(User $user){
         return response()->json([
