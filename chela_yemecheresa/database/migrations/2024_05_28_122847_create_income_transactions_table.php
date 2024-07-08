@@ -22,12 +22,12 @@ return new class extends Migration
             $table->unsignedBigInteger('company_account_id');
             $table->unsignedBigInteger('customer_id');
             $table->unsignedBigInteger('payment_method_id');
-            //$table->unsignedBigInteger('currency_manager_id');  
+            $table->unsignedBigInteger('currency_manager_id');  
             $table->unsignedBigInteger('income_transaction_category_id');
            
 
             $table->foreign('payment_method_id')->references('id')->on('payment_methods')->onDelete('cascade');    
-           //$table->foreign('currency_manager_id')->references('id')->on('currency_managers')->onDelete('cascade');
+           $table->foreign('currency_manager_id')->references('id')->on('currency_managers')->onDelete('cascade');
             $table->foreign('company_account_id')->references('id')->on('company_accounts')->onDelete('cascade');
             $table->foreign('income_transaction_category_id')->references('id')->on('income_transaction_categories')->onDelete('cascade');
             $table->foreign('customer_id')->references('id')->on('customers')->onDelete('cascade');

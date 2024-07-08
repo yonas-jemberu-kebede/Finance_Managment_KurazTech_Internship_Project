@@ -29,7 +29,7 @@ public function edit(Customer $customer)
     ]);
 }
 
-public function view(Customer $customer)
+public function show(Customer $customer)
 {
     return response()->json([
         'customer' => $customer

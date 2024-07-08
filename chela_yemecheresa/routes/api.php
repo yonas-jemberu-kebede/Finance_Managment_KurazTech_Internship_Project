@@ -41,6 +41,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/customer/store',[CustomerController::class,'store'])->name('customer.store');
     Route::delete('/customer/delete/{customer}',[CustomerController::class,'delete'])->name('customer.delete');
     Route::patch('/customer/update/{customer}',[CustomerController::class,'update'])->name('customer.update');
+    Route::get('/customer/show/{customer}',[CustomerController::class,'show'])->name('customer.show');
 
 
     Route::get('vendor/index',[VendorController::class,'index'])->name('vendor.index');

@@ -39,7 +39,7 @@ class ExpenseTransactionController extends Controller
     }
   
     
-    public function view(ExpenseTransaction $expensetransaction)
+    public function show(ExpenseTransaction $expensetransaction)
     {
         return response()->json([
             'expensetransaction' => $expensetransaction
@@ -72,9 +72,16 @@ class ExpenseTransactionController extends Controller
         $payment=PaymentMethod::where('name',$request->input('payment_method_name'))->firstOrFail();
         $category=ExpenseTransactionCategory::where('name',$request->input('expense_transaction_category_name'))->firstOrFail();
         $companyAccount=CompanyAccount::where('account_number',$request->input('company_account_number'))->firstOrFail();
-
-        $companyAccount->amount-=$request->input('amount');
-        $companyAccount->save();
+        if($request->input('amount')>$companyAccount->current_balance){
+            return response()->json(
+                ["error"=>"insufficient amount"]
+            );
+        }
+        else{
+            $companyAccount->amount-=$request->input('amount');
+            $companyAccount->save();
+        }
+       
     
 
         $expenseTransaction = ExpenseTransaction::create(

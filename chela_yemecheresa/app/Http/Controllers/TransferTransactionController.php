@@ -76,10 +76,18 @@ class TransferTransactionController extends Controller
                 'error'=>'one or more account is not found'
             ],404);      
           }
-$companyaccount->amount-=$request->input('amount');
-$targetaccount->current_balance+=$request->input('amount');
-$companyaccount->save();
-$targetaccount->save();
+    if($request->input('amount')>$companyaccount->amount){
+            return response()->json([
+                "error"=>"insufficient balance"
+            ]);
+        }
+        else{
+            $companyaccount->amount-=$request->input('amount');
+            $targetaccount->current_balance+=$request->input('amount');
+            $companyaccount->save();
+            $targetaccount->save();
+    
+        }
 
         $transfertransaction = TransferTransaction::create([
              'amount' => $validated['amount'],
@@ -121,16 +129,23 @@ $targetaccount->save();
                 'error'=>'one or more account is not found'
             ],404);      
           }
+          if($request->input('amount')>$companyaccount->amount){
+            return response()->json([
+                "error"=>"insufficient balance"
+            ]);
+        }else{
+            $previoustransfer=$transfertransaction->amount;
+            $companyaccount->amount+=$previoustransfer;
+            $targetaccount->current_balance-=$previoustransfer;
+            
+            $companyaccount->amount-=$request->input('amount');
+            $targetaccount->current_balance+=$request->input('amount');
+            
+            $companyaccount->save();
+            $targetaccount->save();
+        }  
 
-$previoustransfer=$transfertransaction->amount;
-$companyaccount->amount+=$previoustransfer;
-$targetaccount->current_balance-=$previoustransfer;
 
-$companyaccount->amount-=$request->input('amount');
-$targetaccount->current_balance+=$request->input('amount');
-
-$companyaccount->save();
-$targetaccount->save();
 
 
         $transfertransaction->update([

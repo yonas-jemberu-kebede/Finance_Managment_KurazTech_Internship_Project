@@ -5,13 +5,14 @@ namespace App\Models;
 use Database\Factories\AccountFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use phpDocumentor\Reflection\Types\Void_;
+use App\Observers\CurrencyObserver;
 
 class currency_manager extends Model
 {
     protected $fillable=['name','exchange_rate','is_basecurrency','status'];
+    
     use HasFactory;
-
-
     public function account(){
         return $this->hasMany(Account::class);
     }
@@ -23,10 +24,5 @@ class currency_manager extends Model
     }
     public function transfer(){
         return $this->hasMany(TransferTransaction::class);
-    }
-    
-    public static function getBaseCurrency()
-    {
-        return self::where('is_basecurrency', true)->first();
     }
 }

@@ -1,7 +1,8 @@
 <?php
 
 namespace App\Providers;
-
+use App\Models\currency_manager;
+use App\Observers\CurrencyObserver;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -19,6 +20,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        currency_manager::observe(CurrencyObserver::class);
     }
 }

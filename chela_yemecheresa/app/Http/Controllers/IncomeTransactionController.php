@@ -8,6 +8,7 @@ use App\Models\ExpenseTransaction;
 use App\Models\PaymentMethod;
 use App\Models\IncomeTransactionCategory;
 use App\Models\CompanyAccount;
+use App\Models\currency_manager;
 use App\Models\Customer;
 
 
@@ -54,7 +55,7 @@ public function profit(){
     }
   
     
-    public function view(IncomeTransaction $incometransaction)
+    public function show(IncomeTransaction $incometransaction)
     {
         return response()->json([
             'incometransaction' => $incometransaction
@@ -80,6 +81,7 @@ public function profit(){
             'note' => ['nullable', 'string'],
             'payment_method_name' => ['required', 'string', 'max:255', 'exists:payment_methods,name'],
             'income_transaction_category_name' => ['required', 'string', 'max:255', 'exists:income_transaction_categories,name'],
+        
             
         ]);
 
@@ -87,6 +89,8 @@ public function profit(){
         $customer = Customer::where('name', $request->input('customer_name'))->firstOrFail();
         $payment=PaymentMethod::where('name',$request->input('payment_method_name'))->firstOrFail();
         $category=IncomeTransactionCategory::where('name',$request->input('income_transaction_category_name'))->firstOrFail();
+        $currency=currency_manager::where('is_base_currency',true)->first();
+
 
         // Update the company account balance
         $companyAccount->amount += $request->input('amount');
@@ -102,6 +106,7 @@ public function profit(){
             'customer_id' => $customer->id,
             'payment_method_id' => $payment->id,
             'income_transaction_category_id' => $category->id,
+            'currency_manager_id'=>$currency->id,
             'note' => $request->input('note')
         ]);
 
