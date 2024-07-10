@@ -30,7 +30,7 @@ class AccountController extends Controller
     }
        
     
-    public function view(Account $account)
+    public function show(Account $account)
     {
         return response()->json([
             'account' => $account

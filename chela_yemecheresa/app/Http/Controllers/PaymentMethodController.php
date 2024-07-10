@@ -16,7 +16,7 @@ class PaymentMethodController extends Controller
         );
     }
 
-    public function view(PaymentMethod $paymentmethod){
+    public function show(PaymentMethod $paymentmethod){
 
         return response()->json( [
             'paymentmethod'=>$paymentmethod

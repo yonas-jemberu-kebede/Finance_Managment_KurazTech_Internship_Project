@@ -31,7 +31,7 @@ public function edit(Vendor $vendor)
     }
        
     
-    public function view(Vendor $vendor)
+    public function show(Vendor $vendor)
     {
         return response()->json([
             'vendor' => $vendor

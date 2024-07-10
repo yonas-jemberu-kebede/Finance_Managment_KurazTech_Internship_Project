@@ -44,11 +44,12 @@ Route::middleware('auth')->group(function () {
     Route::get('/customer/show/{customer}',[CustomerController::class,'show'])->name('customer.show');
 
 
-    Route::get('vendor/index',[VendorController::class,'index'])->name('vendor.index');
-    Route::get('vendor/{vendor}/edit',[VendorController::class,'edit'])->name('vendor.edit');
+    Route::get('/vendor/index',[VendorController::class,'index'])->name('vendor.index');
+    Route::get('/vendor/{vendor}/edit',[VendorController::class,'edit'])->name('vendor.edit');
     Route::post('/vendor/store/',[VendorController::class,'store'])->name('vendor.store');
-    Route::delete('vendor/delete/{vendor}',[VendorController::class,'delete'])->name('vendor.delete');
-    Route::patch('vendor/update/{vendor}',[VendorController::class,'update'])->name('vendor.update');
+    Route::delete('/vendor/delete/{vendor}',[VendorController::class,'delete'])->name('vendor.delete');
+    Route::patch('/vendor/update/{vendor}',[VendorController::class,'update'])->name('vendor.update');
+    Route::get('/vendor/show/{vendor}',[VendorController::class,'show'])->name('vendor.show');
 
 
     
@@ -59,6 +60,7 @@ Route::middleware('auth')->group(function () {
 Route::get('account/{account}/edit',[AccountController::class,'edit'])->name('account.edit');
  Route::delete('account/delete/{account}',[AccountController::class,'delete'])->name('account.delete');
 Route::patch('account/update/{account}',[AccountController::class,'update'])->name('account.update');
+Route::get('account/show/{account}',[AccountController::class,'show'])->name('account.show');
 
    
     
@@ -70,6 +72,7 @@ Route::patch('account/update/{account}',[AccountController::class,'update'])->na
     Route::get('/expensetransaction/{expensetransaction}/edit',[ExpenseTransactionController::class,'edit'])->name('ExpenseTransaction.edit');
     Route::post('/expensetransaction/store',[ExpenseTransactionController::class,'store'])->name('ExpenseTransaction.store');
     Route::delete('/expensetransaction/delete/{expensetransaction}',[ExpenseTransactionController::class,'delete'])->name('ExpenseTransaction.delete');
+    Route::get('/expensetransaction/show/{expensetransaction}',[ExpenseTransactionController::class,'show'])->name('ExpenseTransaction.show');
     Route::patch('/expensetransaction/update/{expensetransaction}',[ExpenseTransactionController::class,'update'])->name('ExpenseTransaction.update');
 
 
@@ -78,6 +81,7 @@ Route::patch('account/update/{account}',[AccountController::class,'update'])->na
     Route::post('/incometransaction/store',[IncomeTransactionController::class,'store'])->name('IncomeTransaction.store');
     Route::delete('/incometransaction/delete/{incometransaction}',[IncomeTransactionController::class,'delete'])->name('IncomeTransaction.delete');
     Route::put('/incometransaction/update/{incometransaction}',[IncomeTransactionController::class,'update'])->name('IncomeTransaction.update');
+    Route::get('/incometransaction/show/{incometransaction}',[IncomeTransactionController::class,'show'])->name('IncomeTransaction.show');
     Route::get('/allincome',[IncomeTransactionController::class,'allincome'])->name('IncomeTransaction.allincome');
     Route::get('/totalprofit',[IncomeTransactionController::class,'profit']);
 
@@ -86,6 +90,7 @@ Route::patch('account/update/{account}',[AccountController::class,'update'])->na
     Route::post('/transfertransaction/store',[TransferTransactionController::class,'store'])->name('IncomeTransaction.store');
     Route::delete('/transfertransaction/delete/{transfertransaction}',[TransferTransactionController::class,'delete'])->name('IncomeTransaction.delete');
     Route::patch('/transfertransaction/update/{transfertransaction}',[TransferTransactionController::class,'update'])->name('IncomeTransaction.update');
+    Route::get('/transfertransaction/show/{transfertransaction}',[TransferTransactionController::class,'show'])->name('IncomeTransaction.show');
     Route::get('/alltransfertransactions',[TransferTransactionController::class,'allExpenseTransactions'])->name('IncomeTransaction.allincome');  
 
 
@@ -112,7 +117,7 @@ Route::get('/allpaymentmethods',[PaymentMethodController::class,'index']);
 Route::get('/paymentmethod/edit/{paymentmethod}',[PaymentMethodController::class,'edit']);
 Route::patch('/paymentmethod/update/{paymentmethod}',[PaymentMethodController::class,'update']);
 Route::delete('/paymentmethod/delete/{paymentmethod}',[PaymentMethodController::class,'delete']);
-Route::get('/paymentmethod/view/{paymentmethod}',[PaymentMethodController::class,'view']);
+Route::get('/paymentmethod/show/{paymentmethod}',[PaymentMethodController::class,'show']);
 Route::post('/paymentmethod/store',[PaymentMethodController::class,'store']);
 
 
@@ -121,19 +126,19 @@ Route::get('/allexpensecategories',[ExpenseTransactionCategoryController::class,
 Route::get('/expensecategory/edit/{category}',[ExpenseTransactionCategoryController::class,'edit']);
 Route::patch('/expensecategory/update/{category}',[ExpenseTransactionCategoryController::class,'update']);
 Route::delete('/expensecategory/delete/{category}',[ExpenseTransactionCategoryController::class,'delete']);
-Route::get('/expensecategory/view/{category}',[ExpenseTransactionCategoryController::class,'show']);
+Route::get('/expensecategory/show/{category}',[ExpenseTransactionCategoryController::class,'show']);
 Route::post('/expensecategory/store',[ExpenseTransactionCategoryController::class,'store']);
 
 Route::get('/allincomecategories',[IncomeTransactionCategoryController::class,'index']);
 Route::get('/incomecategory/edit/{category}',[IncomeTransactionCategoryController::class,'edit']);
 Route::patch('/incomecategory/update/{category}',[IncomeTransactionCategoryController::class,'update']);
 Route::delete('/incomecategory/delete/{category}',[IncomeTransactionCategoryController::class,'delete']);
-Route::get('/incomecategory/view/{category}',[IncomeTransactionCategoryController::class,'show']);
+Route::get('/incomecategory/show/{category}',[IncomeTransactionCategoryController::class,'show']);
 Route::post('/incomecategory/store',[IncomeTransactionCategoryController::class,'store']);
 
 Route::get('/basecurrency',[CurrencyManagerController::class,'basecurrency']);
 Route::get('/currency/all',[CurrencyManagerController::class,'index']);
-Route::get('/currency/view/{currency}',[CurrencyManagerController::class,'view']);
+Route::get('/currency/show/{currency}',[CurrencyManagerController::class,'view']);
 Route::get('/currency/edit/{currency}',[CurrencyManagerController::class,'edit']);
 Route::delete('/currency/delete/{currency}',[CurrencyManagerController::class,'delete']);
 Route::put('/currency/update/{currency}',[CurrencyManagerController::class,'update']);
