@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 
 
 
@@ -23,12 +24,15 @@ class AuthController extends Controller
             'user_type' => 'required|string|in:admin,user,guest', // Example types
             'status' => 'required|string|in:active,inactive', // Example statuses
             'role' => 'required|string|max:255', // Role validation
-            'profile_picture' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048', // Profile picture validation
+            'profile_picture' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg', // Profile picture validation
         ]);
 
         $profilePicturePath = null;
     if ($request->hasFile('profile_picture')) {
         $profilePicturePath = $request->file('profile_picture')->store('profile_pictures', 'public');
+        $url=Storage::url($profilePicturePath);
+    }else{
+        $url=null;
     }
 
     $user = User::create([
@@ -37,8 +41,9 @@ class AuthController extends Controller
         'password' => Hash::make($request->password),
         'user_type' => $request->user_type,
         'status' => $request->status,
+        
         'role' => $request->role,
-        'profile_picture' => $profilePicturePath,
+        'profile_picture' => $url,
     ]);
         $token = $user->createToken('auth_token')->plainTextToken;
 
