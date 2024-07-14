@@ -13,8 +13,8 @@ class CurrencyObserver implements ShouldHandleEventsAfterCommit
      * Handle the currency_manager "created" event.
      */
     public function created(currency_manager $currency_manager): void
-    {
-        //
+    { 
+        
     }
 
     /**
@@ -26,7 +26,7 @@ class CurrencyObserver implements ShouldHandleEventsAfterCommit
 
         if($currency_manager->isDirty('is_basecurrency') && $currency_manager->is_basecurrency){
             $oldBase_Currency=currency_manager::where('is_basecurrency',true)->where('id','!=',$currency_manager->id)->first();
-$newBase_Currency=$currency_manager;
+            $newBase_Currency=$currency_manager;
 
             if($oldBase_Currency){
                 $oldRate=$oldBase_Currency->exchange_rate;

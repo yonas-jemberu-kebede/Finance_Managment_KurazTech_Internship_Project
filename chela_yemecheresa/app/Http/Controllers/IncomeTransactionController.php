@@ -84,6 +84,7 @@ public function profit(){
         
             
         ]);
+        $
 
         $companyAccount = CompanyAccount::where('account_number', $request->input('company_account_number'))->firstOrFail();
         $customer = Customer::where('name', $request->input('customer_name'))->firstOrFail();

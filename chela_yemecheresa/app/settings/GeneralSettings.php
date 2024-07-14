@@ -16,6 +16,7 @@ class GeneralSettings extends Settings
     public string $backend_direction;
     public string $date_format;
     public string $time_format;
+    public ?string $logo_url;
     
     public static function group(): string
     {

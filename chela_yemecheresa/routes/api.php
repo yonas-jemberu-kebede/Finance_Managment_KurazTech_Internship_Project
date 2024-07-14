@@ -86,6 +86,7 @@ Route::get('account/show/{account}',[AccountController::class,'show'])->name('ac
     Route::get('/totalprofit',[IncomeTransactionController::class,'profit']);
 
     Route::get('/totaltransfer',[TransferTransactionController::class,'totaltransfer'])->name('IncomeTransaction.totalincome');
+    Route::get('/alltransactions',[TransferTransactionController::class,'alltransactions'])->name('IncomeTransaction.totalincome');
     Route::get('/transfertransaction/{transfertransaction}/edit',[TransferTransactionController::class,'edit'])->name('IncomeTransaction.edit');
     Route::post('/transfertransaction/store',[TransferTransactionController::class,'store'])->name('IncomeTransaction.store');
     Route::delete('/transfertransaction/delete/{transfertransaction}',[TransferTransactionController::class,'delete'])->name('IncomeTransaction.delete');

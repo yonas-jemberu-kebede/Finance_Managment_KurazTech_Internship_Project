@@ -15,5 +15,6 @@ return new class extends SettingsMigration
         $this->migrator->add('general.backend_direction', 'ltr');
         $this->migrator->add('general.date_format', 'Y-m-d');
         $this->migrator->add('general.time_format', 'H:i:s');
+        $this->migrator->add('general.logo_url', null);
     }
 };
