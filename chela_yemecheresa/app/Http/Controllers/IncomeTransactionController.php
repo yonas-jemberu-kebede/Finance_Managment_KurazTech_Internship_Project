@@ -81,25 +81,33 @@ public function profit(){
             'note' => ['nullable', 'string'],
             'payment_method_name' => ['required', 'string', 'max:255', 'exists:payment_methods,name'],
             'income_transaction_category_name' => ['required', 'string', 'max:255', 'exists:income_transaction_categories,name'],
-        
+        'currency_manager_name'=>'required|string|exists:currency_managers,name'
             
         ]);
-        $
+        
+        $enteredCurrency=currency_manager::where('name',$request->input('currency_manager_name'))->first();
+        $basecurrency=currency_manager::where('is_basecurrency',true)->first();
+
+        $amount=$request->input('amount');
+
+        if($enteredCurrency->name != $basecurrency->name){
+          $amount=$amount * $basecurrency->exchange_rate;
+        }
 
         $companyAccount = CompanyAccount::where('account_number', $request->input('company_account_number'))->firstOrFail();
         $customer = Customer::where('name', $request->input('customer_name'))->firstOrFail();
         $payment=PaymentMethod::where('name',$request->input('payment_method_name'))->firstOrFail();
         $category=IncomeTransactionCategory::where('name',$request->input('income_transaction_category_name'))->firstOrFail();
-        $currency=currency_manager::where('is_base_currency',true)->first();
+      
 
 
         // Update the company account balance
-        $companyAccount->amount += $request->input('amount');
+        $companyAccount->amount += $amount;
         $companyAccount->save();
 
         // Create the new income transaction
         $newIncome = IncomeTransaction::create([
-            'amount' => $request->input('amount'),//this will later used in update method as a previous income amount
+            'amount' => $request->input('amount'),//i didnt  use the variable amount,cause original user data have to be used
             //'type' => $request->input('type'),
             'reference' => $request->input('reference'),
             'attachment' => $request->input('attachment'),
@@ -107,7 +115,7 @@ public function profit(){
             'customer_id' => $customer->id,
             'payment_method_id' => $payment->id,
             'income_transaction_category_id' => $category->id,
-            'currency_manager_id'=>$currency->id,
+            'currency_manager_id'=>$enteredCurrency->id,
             'note' => $request->input('note')
         ]);
 
@@ -130,7 +138,17 @@ public function profit(){
             'note' => ['nullable', 'string'],
             'payment_method_name' => ['required', 'string', 'max:255', 'exists:payment_methods,name'],
             'income_transaction_category_name' => ['required', 'string', 'max:255', 'exists:income_transaction_categories,name'],
+            'currency_manager_name'=>'required|string|exists:currency_managers,name'
         ]);
+        $enteredCurrency=currency_manager::where('name',$request->input('currency_manager_name'))->first();
+        $basecurrency=currency_manager::where('is_basecurrency',true)->first();
+        $amount=$request->input('amount');
+
+       
+
+        if($enteredCurrency->name != $basecurrency->name){
+          $amount=$amount * $basecurrency->exchange_rate;
+        }
 
         $companyAccount = CompanyAccount::where('account_number', $request->input('company_account_number'))->firstOrFail();
         $customer = Customer::where('name', $request->input('customer_name'))->firstOrFail();
@@ -139,7 +157,7 @@ public function profit(){
         // Update the company account balance
         $previousincome=$incometransaction->amount;//becaues during update we are using the id in the method so,we can directly access the amount without using the model
         $companyAccount->amount-=$previousincome;
-        $companyAccount->amount += $request->input('amount');
+        $companyAccount->amount += $amount;
         $companyAccount->save();
 
         // Create the new income transaction
@@ -152,6 +170,7 @@ public function profit(){
             'customer_id' => $customer->id,
             'payment_method_id' => $payment->id,
             'income_transaction_category_id' => $category->id,
+            'currency_manager_id' => $enteredCurrency->id,
             'note' => $request->input('note')
         ]);
 

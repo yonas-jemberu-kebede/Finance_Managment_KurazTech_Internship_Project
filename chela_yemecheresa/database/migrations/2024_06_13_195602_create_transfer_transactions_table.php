@@ -20,9 +20,8 @@ return new class extends Migration
             $table->string('note')->nullable();
             
             $table->unsignedBigInteger('payment_method_id');
-            //$table->unsignedBigInteger('currency_manager_id'); 
-           
-            $table->unsignedBigInteger('company_account_id');
+            $table->unsignedBigInteger('currency_manager_id'); 
+             $table->unsignedBigInteger('company_account_id');
             $table->unsignedBigInteger('target_account_id');
            
 
@@ -32,7 +31,7 @@ return new class extends Migration
             $table->foreign('company_account_id')->references('id')->on('company_accounts')->onDelete('cascade');
             $table->foreign('target_account_id')->references('id')->on('accounts')->onDelete('cascade');
             $table->foreign('payment_method_id')->references('id')->on('payment_methods')->onDelete('cascade');    
-            //$table->foreign('currency_manager_id')->references('id')->on('currency_managers')->onDelete('cascade');
+            $table->foreign('currency_manager_id')->references('id')->on('currency_managers')->onDelete('cascade');
             $table->timestamps();
         });
     }

@@ -32,7 +32,7 @@ class ExpenseTransaction extends Model
     public function payment(){
         return $this->belongsTo(PaymentMethod::class);
     }
- //public function currency(){return $this->belongsTo(currency_manager::class);}
+ public function currency(){return $this->belongsTo(currency_manager::class);}
  public function category(){
     return $this->belongsTo(ExpenseTransactionCategory::class);
  }

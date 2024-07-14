@@ -9,6 +9,7 @@ use App\Models\ExpenseTransactionCategory;
 use App\Models\Vendor;
 use App\Models\TransactionCategory;
 use App\Models\PaymentMethod;
+use App\Models\currency_manager;
 
 class ExpenseTransactionController extends Controller
 {
@@ -66,19 +67,32 @@ class ExpenseTransactionController extends Controller
             'note' => ['nullable', 'string'],
             'payment_method_name' => ['required', 'string', 'max:255', 'exists:payment_methods,name'],
             'expense_transaction_category_name' => ['required', 'string', 'max:255', 'exists:expense_transaction_categories,name'],
-            
+            'currency_manager_name'=>'required|string|exists:currency_managers,name'
         ]);
+   
+    
+        $enteredCurrency=currency_manager::where('name',$request->input('currency_manager_name'))->first();
+        $basecurrency=currency_manager::where('is_basecurrency',true)->first();
+        $amount=$request->input('amount');
+
+       
+
+        if($enteredCurrency->name != $basecurrency->name){
+          $amount=$amount * $basecurrency->exchange_rate;
+        }
+
         $vendor=Vendor::where('name',$request->input('vendor_name'))->firstOrFail();
         $payment=PaymentMethod::where('name',$request->input('payment_method_name'))->firstOrFail();
         $category=ExpenseTransactionCategory::where('name',$request->input('expense_transaction_category_name'))->firstOrFail();
         $companyAccount=CompanyAccount::where('account_number',$request->input('company_account_number'))->firstOrFail();
-        if($request->input('amount')>$companyAccount->current_balance){
+        
+        if($amount > $companyAccount->current_balance){
             return response()->json(
                 ["error"=>"insufficient amount"]
             );
         }
         else{
-            $companyAccount->amount-=$request->input('amount');
+            $companyAccount->amount-=$amount;
             $companyAccount->save();
         }
        
@@ -93,6 +107,7 @@ class ExpenseTransactionController extends Controller
                 'company_account_id' => $companyAccount->id,
                 'payment_method_id' => $payment->id,
                 'expense_transaction_category_id' => $category->id,
+                'currency_manager_id' => $enteredCurrency->id,
                 'note' => $request->input('note'),
                 'vendor_id' => $vendor->id,
     
@@ -117,7 +132,18 @@ class ExpenseTransactionController extends Controller
         'note' => ['nullable', 'string'],
         'payment_method_name' => ['required', 'string', 'max:255', 'exists:payment_methods,name'],
         'expense_transaction_category_name' => ['required', 'string', 'max:255', 'exists:expense_transaction_categories,name'],
+        'currency_manager_name'=>'required|string|exists:currency_managers,name'
     ]);
+    $enteredCurrency=currency_manager::where('name',$request->input('currency_manager_name'))->first();
+    $basecurrency=currency_manager::where('is_basecurrency',true)->first();
+    $amount=$request->input('amount');
+
+   
+
+    if($enteredCurrency->name != $basecurrency->name){
+      $amount=$amount * $basecurrency->exchange_rate;
+    }
+
 
     $companyAccount = CompanyAccount::where('account_number', $request->input('company_account_number'))->firstOrFail();
     $vendor = Vendor::where('name', $request->input('vendor_name'))->firstOrFail();
@@ -126,8 +152,16 @@ class ExpenseTransactionController extends Controller
     // Update the company account balance
     $previousexpense=$expensetransaction->amount;//becaues during update we are using the id in the method so,we can directly access the amount without using the model
     $companyAccount->amount+=$previousexpense;
-    $companyAccount->amount -= $request->input('amount');
-    $companyAccount->save();
+  
+    if($amount > $companyAccount->current_balance){
+        return response()->json(
+            ["error"=>"insufficient amount"]
+        );
+    }
+    else{
+        $companyAccount->amount-=$amount;
+        $companyAccount->save();
+    }
 
     // Create the new income transaction
     $updatedExpense = $expensetransaction->update([
@@ -139,6 +173,7 @@ class ExpenseTransactionController extends Controller
         'vendor_id' => $vendor->id,
         'payment_method_id' => $payment->id,
         'expense_transaction_category_id' => $category->id,
+        'currency_manager_id' => $enteredCurrency->id,
         'note' => $request->input('note')
     ]);
 

@@ -7,6 +7,7 @@ use App\Models\TransferTransaction;
 use App\Models\Account;
 use App\Models\CompanyAccount;
 use App\Models\PaymentMethod;
+use App\Models\currency_manager;
 
 class TransferTransactionController extends Controller
 {
@@ -64,9 +65,20 @@ class TransferTransactionController extends Controller
             'company_account_name' => 'required|exists:company_accounts,name',
             'target_account_name' => 'nullable|exists:accounts,name',
             'payment_method_name' => ['required', 'string', 'max:255', 'exists:payment_methods,name'],
-    
+            'currency_manager_name'=>'required|string|exists:currency_managers,name'
             
         ]);
+        
+        $enteredCurrency=currency_manager::where('name',$request->input('currency_manager_name'))->first();
+        $basecurrency=currency_manager::where('is_basecurrency',true)->first();
+        $amount=$request->input('amount');
+
+       
+
+        if($enteredCurrency->name != $basecurrency->name){
+          $amount=$amount * $basecurrency->exchange_rate;
+        }
+
         $companyaccount=CompanyAccount::where('name',$request->input('company_account_name'))->firstOrFail();
         $targetaccount=Account::where('name',$request->input('target_account_name'))->firstOrFail();
    $paymentmethod=PaymentMethod::where('name',$request->input('payment_method_name'))->firstOrFail();
@@ -76,21 +88,22 @@ class TransferTransactionController extends Controller
                 'error'=>'one or more account is not found'
             ],404);      
           }
-    if($request->input('amount')>$companyaccount->amount){
+    if($amount>$companyaccount->amount){
             return response()->json([
                 "error"=>"insufficient balance"
             ]);
         }
         else{
-            $companyaccount->amount-=$request->input('amount');
-            $targetaccount->current_balance+=$request->input('amount');
+            $companyaccount->amount-=$amount;
+            $targetaccount->current_balance+=$amount;
             $companyaccount->save();
             $targetaccount->save();
     
         }
 
         $transfertransaction = TransferTransaction::create([
-             'amount' => $validated['amount'],
+             
+            'amount' => $validated['amount'],
             'reference' => $validated['reference'],
             'attachment' => $validated['attachment'],
             'note' => $validated['note'],
@@ -98,6 +111,7 @@ class TransferTransactionController extends Controller
             'company_account_id' => $companyaccount->id,
             'target_account_id' => $targetaccount->id,
             'payment_method_id' => $paymentmethod->id,
+            'currency_manager_id' => $enteredCurrency->id,
 
         ]);
 
@@ -117,19 +131,31 @@ class TransferTransactionController extends Controller
     
             'company_account_name' => 'required|string|exists:company_accounts,name',
             'target_account_name' => 'required|string|exists:accounts,name',
-      
+       'currency_manager_name'=>'required|string|exists:currency_managers,name'
     
         ]);
+
+        $enteredCurrency=currency_manager::where('name',$request->input('currency_manager_name'))->first();
+        $basecurrency=currency_manager::where('is_basecurrency',true)->first();
+        $amount=$request->input('amount');
+
+       
+
+        if($enteredCurrency->name != $basecurrency->name){
+          $amount=$amount * $basecurrency->exchange_rate;
+        }
+
 
         $companyaccount=CompanyAccount::where('name',$request->input('company_account_name'))->first();
         $targetaccount=Account::where('name',$request->input('target_account_name'))->firstOrFail();
        $paymentmethod=PaymentMethod::where('name',$request->input('payment_method_name'))->firstOrFail();
-        if(!$companyaccount|| !$targetaccount){
+       
+       if(!$companyaccount || !$targetaccount){
             return response()->json([
                 'error'=>'one or more account is not found'
             ],404);      
           }
-          if($request->input('amount')>$companyaccount->amount){
+          if($amount>$companyaccount->amount){
             return response()->json([
                 "error"=>"insufficient balance"
             ]);
@@ -138,8 +164,8 @@ class TransferTransactionController extends Controller
             $companyaccount->amount+=$previoustransfer;
             $targetaccount->current_balance-=$previoustransfer;
             
-            $companyaccount->amount-=$request->input('amount');
-            $targetaccount->current_balance+=$request->input('amount');
+            $companyaccount->amount-=$amount;
+            $targetaccount->current_balance+=$amount;
             
             $companyaccount->save();
             $targetaccount->save();
@@ -157,6 +183,7 @@ class TransferTransactionController extends Controller
             'account_id' => $companyaccount->id,
             'target_account_id' => $targetaccount->id,
             'payment_method_id' => $paymentmethod->id,
+            'currency_manager_id' => $enteredCurrency->id
         ]);
 
         return response()->json([
