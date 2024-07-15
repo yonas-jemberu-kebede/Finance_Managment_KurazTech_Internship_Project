@@ -23,7 +23,7 @@ class AuthController extends Controller
             'password' => 'required|string|min:8|confirmed',
             'user_type' => 'required|string|in:admin,user,guest', // Example types
             'status' => 'required|string|in:active,inactive', // Example statuses
-            'role' => 'required|string|max:255', // Role validation
+            'role' => 'required|string|max:255|exists:roles,name', // Role validation
             'profile_picture' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg', // Profile picture validation
         ]);
 
