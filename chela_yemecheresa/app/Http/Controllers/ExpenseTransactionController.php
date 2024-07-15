@@ -78,7 +78,7 @@ class ExpenseTransactionController extends Controller
        
 
         if($enteredCurrency->name != $basecurrency->name){
-          $amount=$amount * $basecurrency->exchange_rate;
+          $amount=$amount * $enteredCurrency->exchange_rate;
         }
 
         $vendor=Vendor::where('name',$request->input('vendor_name'))->firstOrFail();
@@ -86,7 +86,7 @@ class ExpenseTransactionController extends Controller
         $category=ExpenseTransactionCategory::where('name',$request->input('expense_transaction_category_name'))->firstOrFail();
         $companyAccount=CompanyAccount::where('account_number',$request->input('company_account_number'))->firstOrFail();
         
-        if($amount > $companyAccount->current_balance){
+        if($amount > $companyAccount->amount){
             return response()->json(
                 ["error"=>"insufficient amount"]
             );
@@ -141,7 +141,7 @@ class ExpenseTransactionController extends Controller
    
 
     if($enteredCurrency->name != $basecurrency->name){
-      $amount=$amount * $basecurrency->exchange_rate;
+      $amount=$amount * $enteredCurrency->exchange_rate;
     }
 
 

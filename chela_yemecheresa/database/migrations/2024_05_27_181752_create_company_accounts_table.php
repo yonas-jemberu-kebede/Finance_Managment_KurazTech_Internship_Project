@@ -16,8 +16,8 @@ return new class extends Migration
             $table->string('name')->unique();
             $table->string('account_number')->unique();
             $table->string('account_currency');
-            $table->string('opening_balance');
-            $table->decimal('amount',15,4);
+            $table->decimal('opening_balance',15,2);
+            $table->decimal('amount',15,2);
             $table->string('contact_person')->nullable();
             $table->string('contact_email')->nullable();
             $table->string('note')->nullable();

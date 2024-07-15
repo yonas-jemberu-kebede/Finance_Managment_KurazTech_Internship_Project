@@ -76,7 +76,7 @@ class TransferTransactionController extends Controller
        
 
         if($enteredCurrency->name != $basecurrency->name){
-          $amount=$amount * $basecurrency->exchange_rate;
+          $amount=$amount * $enteredCurrency->exchange_rate;
         }
 
         $companyaccount=CompanyAccount::where('name',$request->input('company_account_name'))->firstOrFail();
@@ -142,7 +142,7 @@ class TransferTransactionController extends Controller
        
 
         if($enteredCurrency->name != $basecurrency->name){
-          $amount=$amount * $basecurrency->exchange_rate;
+          $amount=$amount * $enteredCurrency->exchange_rate;
         }
 
 

@@ -91,7 +91,7 @@ public function profit(){
         $amount=$request->input('amount');
 
         if($enteredCurrency->name != $basecurrency->name){
-          $amount=$amount * $basecurrency->exchange_rate;
+          $amount=$amount * $enteredCurrency->exchange_rate;
         }
 
         $companyAccount = CompanyAccount::where('account_number', $request->input('company_account_number'))->firstOrFail();
@@ -147,7 +147,7 @@ public function profit(){
        
 
         if($enteredCurrency->name != $basecurrency->name){
-          $amount=$amount * $basecurrency->exchange_rate;
+            $amount=$amount * $enteredCurrency->exchange_rate;
         }
 
         $companyAccount = CompanyAccount::where('account_number', $request->input('company_account_number'))->firstOrFail();

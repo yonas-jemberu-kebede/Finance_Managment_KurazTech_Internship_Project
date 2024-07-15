@@ -16,9 +16,9 @@ class CompanyAccountSeeder extends Seeder
         CompanyAccount::create([
             'name' => 'cashlite',
             'account_number' => 'ACC123456789',
-            'account_currency' => 'USD',
-            'opening_balance' => '10000.00',
-            'amount' => 10000.0000,
+            'account_currency' => 'ETB',
+            'opening_balance' => 10000.00,
+            'amount' => 10000.00,
             'contact_person' => 'John Doe',
             'contact_email' => 'john@example.com',
             'note' => 'Initial deposit',
